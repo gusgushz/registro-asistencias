@@ -1,17 +1,11 @@
+import React from "react";
 import { Navigate, Outlet } from "react-router";
-
-interface ProtectedRouteProps {
-  isAllowed: boolean;
-  redirectPath?: string;
-  requiredRole?: string;
-  role?: string;
-  children?: React.ReactElement;
-}
+import { ProtectedRouteProps } from "../models/ProtectedRoutes";
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   isAllowed,
   redirectPath = "/login",
-  requiredRole,
+  requiredRoles,
   role,
   children,
 }) => {
@@ -19,7 +13,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to={redirectPath} replace />;
   }
 
-  if (requiredRole && role !== requiredRole) {
+  if (requiredRoles && !requiredRoles.includes(role!)) {
     return <Navigate to="/unauthorized" replace />;
   }
 

@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+}
+
+.admin-content {
+  display: flex;
+  flex-grow: 1;
+  background-color: green;
+}
+.employee-content {
+  display: flex;
+  flex-grow: 1;
+  background-color: red;
+}
