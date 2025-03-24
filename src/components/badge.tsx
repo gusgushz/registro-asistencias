@@ -3,6 +3,7 @@ import React from "react";
 import { Employee } from "../models/Employee";
 import Barcode from "react-barcode";  // Necesitarás instalar una librería de código de barras, por ejemplo, react-barcode
 import logo from "../assets/images/Logo.png";
+import html2canvas from "html2canvas"; 
 import './bagde.css'
 
 interface BadgeProps {
@@ -10,8 +11,23 @@ interface BadgeProps {
 }
 
 export const Badge = ({employee}: BadgeProps) => {
+
+  const handleDownlad = () => {
+    const badgeElement = document.getElementById("badge");
+
+    if ( badgeElement ) {
+      html2canvas(badgeElement).then((canvas) => {
+        const image  = canvas.toDataURL("image/png");
+
+        const link = document.createElement("a");
+        link.href = image;
+        link.download = `badge-${employee.employeeId}.png`;
+        link.click();
+      })
+    }
+  }
   return (
-    <div className="badge">
+    <div className="badge" id="badge">
       <h1 className="badge-title">Tarjeta de Asistencias</h1>
       <div className="badge-body">
         <div className="badge-logo-container">
@@ -28,6 +44,7 @@ export const Badge = ({employee}: BadgeProps) => {
         {/* Aquí puedes agregar el código de barras */}
         <Barcode value={employee.employeeId.toString()}  width={2} height={40} displayValue={false} />
       </div>
+      <button onClick={handleDownlad}>Descargar Gafete</button>
     </div>
   );
 };
