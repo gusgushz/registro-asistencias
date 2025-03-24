@@ -4,6 +4,7 @@ import { Employee } from "../models/Employee";
 import logo from "../assets/images/Logo.png";
 import user from "../assets/images/person-outline.svg";
 import password from "../assets/images/lock-closed-outline.svg";
+import { Badge } from "../components/badge";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export const Login = () => {
       name: "Gustavo",
       lastname: "Hernandez",
       role: "employee",
+      department: "TI",
       token: "Token para entrar",
     };
     const admin: Employee = {
@@ -26,6 +28,7 @@ export const Login = () => {
       name: "Gustavo",
       lastname: "Hernandez",
       role: "admin",
+      department: "TI",
       token: "Token para entrar",
     };
     await handleLogin(admin);
@@ -48,6 +51,7 @@ export const Login = () => {
         <button type="submit">Ingresar</button>
         <a className="password">Olvide mi contraseña</a>
       </form>
+      {/* <Badge></Badge> */}
     </div>
   );
 };
