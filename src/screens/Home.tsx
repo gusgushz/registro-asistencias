@@ -1,14 +1,25 @@
-import { Header } from "../components/index";
+import { useState } from "react";
+import {
+  Header,
+  AdminComp,
+  EmployeeComp,
+  Assists,
+  Profile,
+} from "../components/index";
 import { Employee } from "../models/Employee";
 import "./Home.css";
 
 export const Home = () => {
+  const [buttonId, setButtonId] = useState<number>(1);
   let employee: Employee = {
     name: "",
-    lastname: "",
+    lastName: "",
     employeeId: 0,
     token: "",
-    role: "",
+    rol: "",
+    department: "",
+    email: "",
+    password: "",
   };
 
   if (localStorage.getItem("employee") !== null) {
@@ -17,21 +28,31 @@ export const Home = () => {
 
   return (
     <div className="container">
-      <Header />
+      <Header
+        buttonId={buttonId}
+        setButtonId={setButtonId}
+        employee={employee}
+      />
       <section className="content">
-        {employee.role === "admin" ? (
+        {employee.rol === "admin" ? (
           <div className="admin-content">
-            <h2>Administrador</h2>
-            <p>
-              Bienvenido {employee.name} {employee.lastname}
-            </p>
+            {buttonId === 2 ? (
+              <Assists></Assists>
+            ) : buttonId === 3 ? (
+              <></>
+            ) : (
+              <AdminComp></AdminComp>
+            )}
           </div>
         ) : (
           <div className="employee-content">
-            <h2>Empleado</h2>
-            <p>
-              Bienvenido {employee.name} {employee.lastname}
-            </p>
+            <div>
+              {buttonId === 2 ? (
+                <Profile></Profile>
+              ) : (
+                <EmployeeComp></EmployeeComp>
+              )}
+            </div>
           </div>
         )}
       </section>

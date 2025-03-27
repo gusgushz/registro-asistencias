@@ -18,10 +18,14 @@ import { Employee } from "./models/Employee.ts";
 let isAuthenticated: boolean;
 let employee: Employee = {
   name: "",
-  lastname: "",
+  lastName: "",
   employeeId: 0,
   token: "",
-  role: "",
+  rol: "",
+  department: "",
+  email: "",
+  password: "",
+  assists: [],
 };
 
 if (localStorage.getItem("employee") === null) {
@@ -45,7 +49,7 @@ createRoot(document.getElementById("root")!).render(
             <ProtectedRoute
               isAllowed={isAuthenticated}
               requiredRoles={["admin", "employee"]} // Roles permitidos
-              role={employee.role}
+              rol={employee.rol}
             />
           }
         >
@@ -53,7 +57,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="home" element={<Home />} />
 
           {/* Rutas solo para admin */}
-          {employee.role === "admin" && (
+          {employee.rol === "admin" && (
             <>
               <Route path="register" element={<Register />} />
               <Route path="attendances" element={<Attendances />} />
@@ -61,7 +65,7 @@ createRoot(document.getElementById("root")!).render(
           )}
 
           {/* Rutas solo para employee */}
-          {employee.role === "employee" && (
+          {employee.rol === "employee" && (
             <Route path=":employeeId/attendance" element={<Attendance />} />
           )}
         </Route>
