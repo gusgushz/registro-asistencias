@@ -4,20 +4,22 @@ import logout from "../assets/images/log-out-outline.svg";
 import "./Header.css";
 import { Employee } from "../models/Employee";
 
-interface HomeProps {
+
+interface HeaderProps {
   employee: Employee;
   buttonId: number;
-  setButtonId: (buttonId:number) => void;
+  setButtonId: (id: number) => void;
 }
-export const Header = (props: HomeProps) => {
+
+export const Header = (props: HeaderProps) => {
   const { employee, buttonId, setButtonId } = props;
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("employee");
-    // Redirigir al usuario a la página de inicio de sesión
     navigate({ pathname: "/login" });
   };
+
   return (
     <header className="header">
       <nav className="navbar">
@@ -25,11 +27,14 @@ export const Header = (props: HomeProps) => {
           <img src={logo} alt="KYGA Technologies Logo" />
         </div>
         <div className="options-container">
-          {employee.role === "admin" ? (
+          {employee.rol === "admin" ? (
             <div>
-              <button>Espacio de admin</button>
-              <button>Espacio de admin</button>
-              <button>Espacio de admin</button>
+              <button onClick={() => setButtonId(1)} className="logout-button">
+                <a href="#AdminComp">Espacio de admin</a>
+              </button>
+              <button onClick={() => setButtonId(2)} className="logout-button">
+                <a href="#Assits">Espacio de admin</a>
+              </button>
             </div>
           ) : (
             <div>
