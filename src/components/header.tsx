@@ -4,19 +4,14 @@ import logout from "../assets/images/log-out-outline.svg";
 import "./Header.css";
 import { Employee } from "../models/Employee";
 
-export const Header = () => {
+interface HomeProps {
+  employee: Employee;
+  buttonId: number;
+  setButtonId: (buttonId:number) => void;
+}
+export const Header = (props: HomeProps) => {
+  const { employee, buttonId, setButtonId } = props;
   const navigate = useNavigate();
-  let employee: Employee = {
-    name: "",
-    lastname: "",
-    employeeId: 0,
-    token: "",
-    role: "",
-  };
-
-  if (localStorage.getItem("employee") !== null) {
-    employee = JSON.parse(localStorage.getItem("employee")!);
-  }
 
   const handleLogout = () => {
     localStorage.removeItem("employee");
@@ -38,9 +33,17 @@ export const Header = () => {
             </div>
           ) : (
             <div>
-              <button>Espacio de employee</button>
-              <button>Espacio de employee</button>
+              <button className="logout-button" onClick={() => setButtonId(2)}>
+                Mis asistencias
+              </button> 
+
+              <br></br>
+
+              <button className="logout-button" onClick={() => setButtonId(1)}>
+                Perfil
+              </button>
             </div>
+            
           )}
         </div>
         <div className="logout-container">

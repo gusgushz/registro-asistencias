@@ -4,13 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import "./index.css";
 import App from "./App.tsx";
 import {
-  Attendance,
   BarCodeScanner,
   Home,
   Login,
   Register,
   Unauthorized,
-  Attendances,
 } from "./screens/index.ts";
 import { ProtectedRoute } from "./components/index.ts";
 import { Employee } from "./models/Employee.ts";
@@ -56,13 +54,11 @@ createRoot(document.getElementById("root")!).render(
           {employee.role === "admin" && (
             <>
               <Route path="register" element={<Register />} />
-              <Route path="attendances" element={<Attendances />} />
             </>
           )}
 
           {/* Rutas solo para employee */}
-          {employee.role === "employee" && (
-            <Route path=":employeeId/attendance" element={<Attendance />} />
+          {employee.role === "employee" && (<></>
           )}
         </Route>
 

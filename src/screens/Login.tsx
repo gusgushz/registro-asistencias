@@ -28,7 +28,7 @@ export const Login = () => {
       role: "admin",
       token: "Token para entrar jbihbuvutvfguvtfvvt",
     };
-    await handleLogin(admin);
+    await handleLogin(employee);
     navigate({ pathname: "/home" });
   };
 

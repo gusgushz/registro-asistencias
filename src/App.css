@@ -63,6 +63,7 @@
   background: white;
   color: #4a90e2;
   border-radius: 8px;
+  border-color: white;
   transition: background 0.3s, transform 0.2s;
 }
 

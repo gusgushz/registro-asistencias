@@ -1,8 +1,11 @@
-import { Header } from "../components/index";
+import { useState } from "react";
+import { Header, Asistencias, ProfileUserCard} from "../components/index";
 import { Employee } from "../models/Employee";
 import "./Home.css";
 
 export const Home = () => {
+  const [buttonId, setButtonId] = useState<number>(2);
+  
   let employee: Employee = {
     name: "",
     lastname: "",
@@ -17,7 +20,7 @@ export const Home = () => {
 
   return (
     <div className="container">
-      <Header />
+      <Header employee={employee} buttonId={buttonId} setButtonId={setButtonId} />
       <section className="content">
         {employee.role === "admin" ? (
           <div className="admin-content">
@@ -28,10 +31,7 @@ export const Home = () => {
           </div>
         ) : (
           <div className="employee-content">
-            <h2>Empleado</h2>
-            <p>
-              Bienvenido {employee.name} {employee.lastname}
-            </p>
+            {buttonId == 2 ? (<Asistencias></Asistencias>) : (<ProfileUserCard></ProfileUserCard>)}
           </div>
         )}
       </section>
