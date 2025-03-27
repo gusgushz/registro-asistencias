@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  Header,
-  AdminComp,
-  EmployeeComp,
-  Assists,
-  Profile,
-} from "../components/index";
+import { Header, Asistencias, ProfileUserCard} from "../components/index";
 import { Employee } from "../models/Employee";
 import "./Home.css";
 
@@ -28,11 +22,7 @@ export const Home = () => {
 
   return (
     <div className="container">
-      <Header
-        buttonId={buttonId}
-        setButtonId={setButtonId}
-        employee={employee}
-      />
+      <Header employee={employee} buttonId={buttonId} setButtonId={setButtonId} />
       <section className="content">
         {employee.rol === "admin" ? (
           <div className="admin-content">
@@ -46,13 +36,7 @@ export const Home = () => {
           </div>
         ) : (
           <div className="employee-content">
-            <div>
-              {buttonId === 2 ? (
-                <Profile></Profile>
-              ) : (
-                <EmployeeComp></EmployeeComp>
-              )}
-            </div>
+            {buttonId == 2 ? (<Asistencias></Asistencias>) : (<ProfileUserCard></ProfileUserCard>)}
           </div>
         )}
       </section>

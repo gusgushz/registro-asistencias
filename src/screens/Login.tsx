@@ -28,13 +28,9 @@ export const Login = () => {
     const admin: Employee = {
       employeeId: 2,
       name: "Gustavo",
-      lastName: "Hernandez",
-      rol: "admin",
-      token: "Token para entrar",
-      department: "TI",
-      email: "asdf",
-      password: "asdf",
-      assists: [],
+      lastname: "Hernandez",
+      role: "admin",
+      token: "Token para entrar jbihbuvutvfguvtfvvt",
     };
     await handleLogin(employee);
     navigate({ pathname: "/home" });

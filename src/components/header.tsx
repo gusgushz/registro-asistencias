@@ -4,6 +4,7 @@ import logout from "../assets/images/log-out-outline.svg";
 import "./Header.css";
 import { Employee } from "../models/Employee";
 
+
 interface HeaderProps {
   employee: Employee;
   buttonId: number;
@@ -37,15 +38,17 @@ export const Header = (props: HeaderProps) => {
             </div>
           ) : (
             <div>
-              <button className="logout-button" onClick={() => setButtonId(1)}>
-                <a href="#EmployeeComp">
-                  <p>Espacio de employee</p>
-                </a>
-              </button>
               <button className="logout-button" onClick={() => setButtonId(2)}>
-                <a href="#Profile">Espacio de employee</a>
+                Mis asistencias
+              </button> 
+
+              <br></br>
+
+              <button className="logout-button" onClick={() => setButtonId(1)}>
+                Perfil
               </button>
             </div>
+            
           )}
         </div>
         <div className="logout-container">

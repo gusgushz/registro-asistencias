@@ -7,8 +7,5 @@ export interface Employee {
   password: string;
   rol: string;
   token: string;
-  department: string;
-  assists?: Assist[];
 }
 
-export type NewEmployee = Omit<Employee, "employeeId" | "token" | "assists">;
