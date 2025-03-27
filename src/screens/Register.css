@@ -1,4 +1,4 @@
-.container-login {
+.container-register {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -8,7 +8,7 @@
   background: linear-gradient(to right, #4a90e2, #50e3c2);
 }
 
-.form {
+.form-register {
   width: 100%;
   max-width: 35%;
   display: flex;
@@ -21,15 +21,15 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-block: 5rem;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
-.form p {
+.form-register p {
   font-family: PatuaOne;
   font-size: 3rem;
   color: black;
 }
 
-.form input {
+.form-register input {
   width: 25rem;
   height: 2.5rem;
   padding-inline: 2.5rem;
@@ -40,7 +40,7 @@
   font-family: Roboto;
 }
 
-.form button {
+.form-register button {
   width: 15rem;
   height: 2rem;
   padding: 0.5rem; /* Padding proporcional */
@@ -49,12 +49,15 @@
   border-radius: 8px;
   background-color: #4a90e2;
   color: white;
-  font-weight: 500;
+  font-size: 1rem; /* Tamaño de fuente explícito */
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-.form button:hover {
+
+.form-register button:hover {
   background-color: #3a7bc8;
 }
-.form img {
+.form-register img {
   width: 1.5rem;
   height: 1.5rem;
   position: absolute;
@@ -80,19 +83,15 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  color: black;
+  gap: 0.5rem;
 }
-.form-register {
-  width: 100%;
-  max-width: 35%;
-  display: flex;
-  flex-direction: column;
-  padding-top: 7rem;
-  padding-bottom: 5rem;
-  padding-inline: 2rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-block: 5rem;
-  align-items: center;
-  gap: 1rem;
+#options {
+  background-color: #e3e3e3;
+  color: black;
+  font-family: Roboto;
+  font-size: 0.8rem;
+  cursor: pointer;
+  width: 10rem;
+  height: 2rem;
 }
