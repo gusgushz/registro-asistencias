@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header, Asistencias, ProfileUserCard} from "../components/index";
 import { Employee } from "../models/Employee";
@@ -16,10 +17,10 @@ export const Home = () => {
     password: "",
   };
 
-  if (localStorage.getItem("employee") !== null) {
-    employee = JSON.parse(localStorage.getItem("employee")!);
-  }
-
+    if (localStorage.getItem("employee") !== null) {
+      employee = JSON.parse(localStorage.getItem("employee")!);
+    }
+    console.log("Employee:", employee); 
   return (
     <div className="container">
       <Header employee={employee} buttonId={buttonId} setButtonId={setButtonId} />
