@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BarcodeDetector } from "barcode-detector/ponyfill";
 import "./BarCodeScanner.css";
+import ModalScanner from "../components/scanner/modalScanner";
 
 export const BarCodeScanner: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [detectedBarcodes, setDetectedBarcodes] = useState<string[]>([]);
-  //FIXME:Formato POST es employeeId y date ISO
+  const [detectedBarcodes, setDetectedBarcodes] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isScanning, setIsScanning] = useState(true); 
+
   useEffect(() => {
-    // Verificar si el navegador soporta BarcodeDetector
     const checkBarcodeDetectorSupport = async () => {
       const supportedFormats = await BarcodeDetector.getSupportedFormats();
       if (supportedFormats.length === 0) {
@@ -17,16 +20,14 @@ export const BarCodeScanner: React.FC = () => {
       return true;
     };
 
-    // Inicializar el BarcodeDetector
     const barcodeDetector = new BarcodeDetector({
-      formats: ["qr_code", "ean_13", "code_128", "code_39", "code_93"], // Formatos soportados
+      formats: ["qr_code", "ean_13", "code_128", "code_39", "code_93"],
     });
 
-    // Acceder a la cámara
     const startCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" }, // Usar la cámara trasera
+          video: { facingMode: "environment" },
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -37,9 +38,8 @@ export const BarCodeScanner: React.FC = () => {
       }
     };
 
-    // Función para capturar un fotograma y detectar códigos de barras
     const detectBarcodes = async () => {
-      if (!videoRef.current) return;
+      if (!videoRef.current || !isScanning) return; 
 
       const video = videoRef.current;
       const canvas = document.createElement("canvas");
@@ -49,19 +49,27 @@ export const BarCodeScanner: React.FC = () => {
 
       if (!context) return;
 
-      // Dibujar el fotograma actual en el canvas
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // Convertir el canvas a un Blob
       canvas.toBlob(async (blob) => {
         if (!blob) return;
 
         try {
-          // Detectar códigos de barras en el Blob
           const barcodes = await barcodeDetector.detect(blob);
           if (barcodes.length > 0) {
-            const barcodeValues = barcodes.map((barcode) => barcode.rawValue);
-            setDetectedBarcodes(barcodeValues);
+            const barcodeValue = barcodes[0].rawValue.trim();
+            setDetectedBarcodes(barcodeValue);
+            // setModalMessage(`Detected Barcodes: ${barcodeValues.join(", ")}`);
+            setIsScanning(false);
+
+            setModalMessage(`Codigo detectado: ${barcodeValue}`)
+            setIsModalOpen(true);
+
+            await registerAssist(barcodeValue); 
+            // setTimeout(() => {
+            //   setIsModalOpen(false);
+            //   setIsScanning(true);  // Reiniciar el escaneo después de que se cierra el modal
+            // }, 7000); //
           }
         } catch (error) {
           console.error("Error al detectar códigos de barras:", error);
@@ -69,18 +77,16 @@ export const BarCodeScanner: React.FC = () => {
       }, "image/png");
     };
 
-    // Iniciar la cámara y la detección
     const init = async () => {
       const isSupported = await checkBarcodeDetectorSupport();
       if (!isSupported) return;
 
       await startCamera();
-      setInterval(detectBarcodes, 1000); // Detectar cada segundo
+      setInterval(detectBarcodes, 2000);
     };
 
     init();
 
-    // Limpiar al desmontar el componente
     return () => {
       if (videoRef.current?.srcObject) {
         (videoRef.current.srcObject as MediaStream)
@@ -88,7 +94,51 @@ export const BarCodeScanner: React.FC = () => {
           .forEach((track) => track.stop());
       }
     };
-  }, []);
+  }, [isScanning]);
+
+  const registerAssist = async (barcodeValue: string) => {
+    const apiUrl = 'https://node-webrest-server-fin-seccion-production.up.railway.app';
+
+    const userId = parseInt(barcodeValue);
+    if (isNaN(userId)) {
+      console.log('Codigo Qr invalido, No es un Id valido')
+      setIsModalOpen(true);
+      setIsScanning(false);
+      return;
+    }
+
+    const data = {
+      userId: userId,
+      fecha: new  Date().toISOString(),
+    }
+
+    try {
+      const response = await fetch(`${apiUrl}/api/assist/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      }); 
+
+      const result = await response.json()
+      console.log(result);
+      if (response.ok) {
+        setModalMessage(`Asistencia registrada correctamente\nBienvenido:\nEmpleado número ${userId}`);
+        console.log("Asistencia registrada correctamente", response);
+      } else {
+        setModalMessage("Error al registrar asistencia");
+      }
+    } catch (e) {
+      console.error("Error al registrar asistencia", e);
+      setModalMessage("Error al registrar asistencia");
+    }
+    setIsModalOpen(true);
+  }
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setIsScanning(true);  // Reiniciar escaneo
+  };
 
   return (
     <section className="scanner">
@@ -101,16 +151,20 @@ export const BarCodeScanner: React.FC = () => {
         style={{
           width: 500,
           height: 500,
-          //transform: "scaleX(-1)",
         }}
       />
       <div>
         <h2>Códigos de Barras Detectados:</h2>
-        <ul>
+        {/* <ul>
           {detectedBarcodes.map((barcode, index) => (
             <li key={index}>{barcode}</li>
           ))}
-        </ul>
+        </ul> */}
+        <ModalScanner
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          message={modalMessage}
+        />
       </div>
     </section>
   );

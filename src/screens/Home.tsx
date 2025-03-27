@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Header,
@@ -22,10 +23,10 @@ export const Home = () => {
     password: "",
   };
 
-  if (localStorage.getItem("employee") !== null) {
-    employee = JSON.parse(localStorage.getItem("employee")!);
-  }
-
+    if (localStorage.getItem("employee") !== null) {
+      employee = JSON.parse(localStorage.getItem("employee")!);
+    }
+    console.log("Employee:", employee); 
   return (
     <div className="container">
       <Header
