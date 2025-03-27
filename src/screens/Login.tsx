@@ -36,7 +36,7 @@ export const Login = () => {
       password: "asdf",
       assists: [],
     };
-    await handleLogin(employee);
+    await handleLogin(admin);
     navigate({ pathname: "/home" });
   };
 
