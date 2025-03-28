@@ -8,7 +8,7 @@ export const BarCodeScanner: React.FC = () => {
   const [detectedBarcodes, setDetectedBarcodes] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [isScanning, setIsScanning] = useState(true); 
+  const [lastAssistTime, setLastAssistTime] = useState<number | null>(null);
 
   useEffect(() => {
     const checkBarcodeDetectorSupport = async () => {
@@ -39,7 +39,7 @@ export const BarCodeScanner: React.FC = () => {
     };
 
     const detectBarcodes = async () => {
-      if (!videoRef.current || !isScanning) return; 
+      if (!videoRef.current) return; 
 
       const video = videoRef.current;
       const canvas = document.createElement("canvas");
@@ -59,17 +59,11 @@ export const BarCodeScanner: React.FC = () => {
           if (barcodes.length > 0) {
             const barcodeValue = barcodes[0].rawValue.trim();
             setDetectedBarcodes(barcodeValue);
-            // setModalMessage(`Detected Barcodes: ${barcodeValues.join(", ")}`);
-            setIsScanning(false);
-
-            setModalMessage(`Codigo detectado: ${barcodeValue}`)
-            setIsModalOpen(true);
 
             await registerAssist(barcodeValue); 
-            // setTimeout(() => {
-            //   setIsModalOpen(false);
-            //   setIsScanning(true);  // Reiniciar el escaneo después de que se cierra el modal
-            // }, 7000); //
+            setTimeout(() => {
+              setIsModalOpen(false);
+            }, 7000); //
           }
         } catch (error) {
           console.error("Error al detectar códigos de barras:", error);
@@ -94,7 +88,7 @@ export const BarCodeScanner: React.FC = () => {
           .forEach((track) => track.stop());
       }
     };
-  }, [isScanning]);
+  }, []);
 
   const registerAssist = async (barcodeValue: string) => {
     const apiUrl = 'https://node-webrest-server-fin-seccion-production.up.railway.app';
@@ -103,13 +97,22 @@ export const BarCodeScanner: React.FC = () => {
     if (isNaN(userId)) {
       console.log('Codigo Qr invalido, No es un Id valido')
       setIsModalOpen(true);
-      setIsScanning(false);
       return;
     }
 
+
+    // if (lastAssistTime && currentTime - lastAssistTime < 7000) {
+    //   console.log('Ya se registro una asistencia hace menos de 7 segundos')
+    //   // setIsModalOpen(true);
+    //   return;
+    // }
+
+    // const date = new Date().getDate();
+    const date = new Date() 
+
     const data = {
       userId: userId,
-      fecha: new  Date().toISOString(),
+      fecha: date //Deberia ser la fecha actual en formato ISO? ,
     }
 
     try {
@@ -127,18 +130,18 @@ export const BarCodeScanner: React.FC = () => {
         setModalMessage(`Asistencia registrada correctamente\nBienvenido:\nEmpleado número ${userId}`);
         console.log("Asistencia registrada correctamente", response);
       } else {
-        setModalMessage("Error al registrar asistencia");
+        setModalMessage("Debes esperar 7 segundos para registrar otra asistenciaa");
       }
     } catch (e) {
       console.error("Error al registrar asistencia", e);
-      setModalMessage("Error al registrar asistencia");
+      setModalMessage("Debes esperar 7 segundos para registrar otra asistencia");
     }
     setIsModalOpen(true);
   }
+  
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setIsScanning(true);  // Reiniciar escaneo
-  };
+  }
 
   return (
     <section className="scanner">

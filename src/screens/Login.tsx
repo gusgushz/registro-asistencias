@@ -28,7 +28,7 @@ export const Login = () => {
       return alert("Error en el login");
     } else {
       const employee: Employee = {
-        employeeId: result.user.userId,
+        userId: result.user.userId,
         name: result.user.name,
         lastName: result.user.lastName,
         rol: result.user.rol,

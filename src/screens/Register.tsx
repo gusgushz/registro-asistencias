@@ -27,7 +27,7 @@ export const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    newEmploye = {
+    const newEmploye = {
       name: nameRef.current?.value || "",
       lastName: lastnameRef.current?.value || "",
       email: emailRef.current?.value || "",
