@@ -9,7 +9,6 @@ import { postRegister } from "../components/postRegister";
 
 export const Register = () => {
   const navigate = useNavigate();
-  let newEmploye: NewEmployee;
   const nameRef = useRef<HTMLInputElement>(null);
   const lastnameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -17,9 +16,12 @@ export const Register = () => {
   const departmentRef = useRef<HTMLSelectElement>(null);
 
   const handleRegister = async (employee: NewEmployee) => {
+    if (!employee || !employee.name || !employee.lastName || !employee.email || !employee.password || !employee.department) {
+      alert("Por favor, completa todos los campos requeridos.");
+    }
     const response = await postRegister(employee);
     if (response) {
-      localStorage.setItem("employee", JSON.stringify(response));
+      navigate({ pathname: "/home" }, { replace: true });
     } else {
       console.error("Error during registration");
     }
@@ -27,7 +29,7 @@ export const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    newEmploye = {
+    const newEmployee = {
       name: nameRef.current?.value || "",
       lastName: lastnameRef.current?.value || "",
       email: emailRef.current?.value || "",
@@ -35,8 +37,8 @@ export const Register = () => {
       rol: "EMPLEADO",
       department: departmentRef.current?.value || "",
     };
-    console.log(JSON.stringify(newEmploye));
-    const result = await handleRegister(newEmploye);
+    console.log(JSON.stringify(newEmployee));
+    const result = await handleRegister(newEmployee);
     if (result !== null) {
       navigate({ pathname: "/home" });
     } else {
@@ -69,12 +71,12 @@ export const Register = () => {
           <h3>Departamento</h3>
           <select name="Departamento" id="options" ref={departmentRef}>
             <option value="TI">TI</option>
-            <option value="Ventas">Ventas</option>
-            <option value="Marketing">Marketing</option>
+            <option value="VENTAS">Ventas</option>
+            <option value="ADMINISTRACION">Administración</option>
+            <option value="PRODUCCION">Producción</option>
           </select>
         </div>
-        <button type="submit">Ingresar</button>
-        <a className="password">Olvide mi contraseña</a>
+        <button type="submit">Agregar empleado</button>
       </form>
     </div>
   );

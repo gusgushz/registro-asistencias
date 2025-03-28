@@ -14,7 +14,7 @@ export const Home = () => {
   let employee: Employee = {
     name: "",
     lastName: "",
-    employeeId: 0,
+    userId: 0,
     token: "",
     rol: "",
     department: "",
