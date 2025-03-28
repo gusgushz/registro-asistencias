@@ -4,13 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import "./index.css";
 import App from "./App.tsx";
 import {
-  Attendance,
   BarCodeScanner,
   Home,
   Login,
   Register,
   Unauthorized,
-  Attendances,
 } from "./screens/index.ts";
 import { ProtectedRoute } from "./components/index.ts";
 import { Employee } from "./models/Employee.ts";
@@ -48,7 +46,7 @@ createRoot(document.getElementById("root")!).render(
           element={
             <ProtectedRoute
               isAllowed={isAuthenticated}
-              requiredRoles={["admin", "employee"]} // Roles permitidos
+              requiredRoles={["ADMIN", "EMPLEADO"]} // Roles permitidos
               rol={employee.rol}
             />
           }
@@ -57,17 +55,14 @@ createRoot(document.getElementById("root")!).render(
           <Route path="home" element={<Home />} />
 
           {/* Rutas solo para admin */}
-          {employee.rol === "admin" && (
+          {employee.rol === "ADMIN" && (
             <>
               <Route path="register" element={<Register />} />
-              <Route path="attendances" element={<Attendances />} />
             </>
           )}
 
           {/* Rutas solo para employee */}
-          {employee.rol === "employee" && (
-            <Route path=":employeeId/attendance" element={<Attendance />} />
-          )}
+          {employee.rol === "EMPLEADO" && <></>}
         </Route>
 
         <Route path="unauthorized" element={<Unauthorized />} />

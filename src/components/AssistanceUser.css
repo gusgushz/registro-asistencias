@@ -1,0 +1,102 @@
+.historial-container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .historial-tarjeta {
+    background: white;
+   
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .historial-titulo {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .empleado-info-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .empleado-info {
+    font-size: 18px;
+  }
+  
+  .etiqueta {
+    font-weight: bold;
+  }
+  
+  .filtro-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .filtro-select {
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .tabla-container {
+    width: 100%;
+  }
+  
+  .tabla-asistencias {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tabla-asistencias th {
+    background: #2f80ed;
+    color: white;
+    padding: 14px;
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  .tabla-asistencias td {
+    padding: 12px;
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .sin-registros {
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+  }
+  
+  .total-horas {
+    margin-top: 20px;
+    padding: 15px;
+    background: white;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .total-horas span {
+    background: #2f80ed;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+  }
+  

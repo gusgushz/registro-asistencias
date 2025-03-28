@@ -1,11 +1,10 @@
-
 import { useState } from "react";
 import {
   Header,
-  AdminComp,
-  EmployeeComp,
+  Asistencias,
+  ProfileUserCard,
   Assists,
-  Profile,
+  AdminComp,
 } from "../components/index";
 import { Employee } from "../models/Employee";
 import "./Home.css";
@@ -23,19 +22,19 @@ export const Home = () => {
     password: "",
   };
 
-    if (localStorage.getItem("employee") !== null) {
-      employee = JSON.parse(localStorage.getItem("employee")!);
-    }
-    console.log("Employee:", employee); 
+  if (localStorage.getItem("employee") !== null) {
+    employee = JSON.parse(localStorage.getItem("employee")!);
+  }
+  console.log("Employee:", employee);
   return (
     <div className="container">
       <Header
+        employee={employee}
         buttonId={buttonId}
         setButtonId={setButtonId}
-        employee={employee}
       />
       <section className="content">
-        {employee.rol === "admin" ? (
+        {employee.rol === "ADMIN" ? (
           <div className="admin-content">
             {buttonId === 2 ? (
               <Assists></Assists>
@@ -47,13 +46,11 @@ export const Home = () => {
           </div>
         ) : (
           <div className="employee-content">
-            <div>
-              {buttonId === 2 ? (
-                <Profile></Profile>
-              ) : (
-                <EmployeeComp></EmployeeComp>
-              )}
-            </div>
+            {buttonId == 2 ? (
+              <Asistencias></Asistencias>
+            ) : (
+              <ProfileUserCard></ProfileUserCard>
+            )}
           </div>
         )}
       </section>
