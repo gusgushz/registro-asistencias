@@ -38,13 +38,13 @@ export const Header = (props: HeaderProps) => {
             </div>
           ) : (
             <div>
-              <button className="logout-button" onClick={() => setButtonId(2)}>
+              <button className="logout-button" onClick={() => setButtonId(1)}>
                 Mis asistencias
               </button> 
 
               <br></br>
 
-              <button className="logout-button" onClick={() => setButtonId(1)}>
+              <button className="logout-button" onClick={() => setButtonId(2)}>
                 Perfil
               </button>
             </div>

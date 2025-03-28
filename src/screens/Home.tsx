@@ -37,7 +37,7 @@ export const Home = () => {
           </div>
         ) : (
           <div className="employee-content">
-            {buttonId == 2 ? (<Asistencias></Asistencias>) : (<ProfileUserCard></ProfileUserCard>)}
+            {buttonId == 2 ? (<ProfileUserCard></ProfileUserCard>) :(<Asistencias></Asistencias>)}
           </div>
         )}
       </section>

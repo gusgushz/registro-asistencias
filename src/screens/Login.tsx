@@ -21,7 +21,7 @@ export const Login = () => {
       lastName: "Hernandez",
       rol: "employee",
       token: "Token para entrar",
-      department: "TI",
+      // department: "TI",
       email: "asdf",
       password: "asdf",
       assists: [],
@@ -29,8 +29,8 @@ export const Login = () => {
     const admin: Employee = {
       employeeId: 2,
       name: "Gustavo",
-      lastname: "Hernandez",
-      role: "admin",
+      lastName: "Hernandez",
+      rol: "admin",
       token: "Token para entrar jbihbuvutvfguvtfvvt",
     };
     await handleLogin(employee);
