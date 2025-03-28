@@ -1,0 +1,21 @@
+.assist-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .assist-table th,
+  .assist-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .assist-table th {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  h2, h3, h4 {
+    margin: 10px 0;
+  }

@@ -8,6 +8,7 @@ import {
 } from "../components/index";
 import { Employee } from "../models/Employee";
 import "./Home.css";
+import {Register} from "../screens/index"
 
 
 export const Home = () => {
@@ -40,7 +41,7 @@ export const Home = () => {
             {buttonId === 2 ? (
               <Assists></Assists>
             ) : buttonId === 3 ? (
-              <></>
+              <Register></Register>
             ) : (
               <AdminComp></AdminComp>
             )}

@@ -29,10 +29,13 @@ export const Header = (props: HeaderProps) => {
           {employee.rol === "ADMIN" ? (
             <div>
               <button onClick={() => setButtonId(1)} className="logout-button">
-                <a href="#AdminComp">Historial de Asistencia</a>
+                <a href="#Empleados">Empleados</a>
               </button>
               <button onClick={() => setButtonId(2)} className="logout-button">
-                <a href="#Assists">Registrar mpleado </a>
+                <a href="#HistorialAsistencia">HistorialAsistencia</a>
+              </button>
+              <button onClick={() => setButtonId(3)} className="logout-button">
+                <a href="#Assists">Registrar Empleado </a>
               </button>
             </div>
           ) : (

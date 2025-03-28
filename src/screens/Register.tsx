@@ -49,20 +49,20 @@ export const Register = () => {
     <div className="container-register">
       <img src={logo} alt="KYGA Technologies Logo" className="logo" />
       <form className="form-register" onSubmit={handleSubmit}>
-        <p>Iniciar Sesión</p>
-        <div className="input-container">
+        <p>Registrar empleado</p>
+        <div className="input-container-register">
           <img src={user} className="input-icon" alt="Empleado" />
           <input type="text" placeholder="Correo" ref={emailRef} />
         </div>
-        <div className="input-container">
+        <div className="input-container-register">
           <img src={password} className="input-icon" alt="Contraseña" />
           <input type="password" placeholder="Contraseña" ref={passwordRef} />
         </div>
-        <div className="input-container">
+        <div className="input-container-register">
           <img src={user} className="input-icon" alt="Empleado" />
           <input type="text" placeholder="Nombre" ref={nameRef} />
         </div>
-        <div className="input-container">
+        <div className="input-container-register">
           <img src={user} className="input-icon" alt="Empleado" />
           <input type="text" placeholder="Apellido" ref={lastnameRef} />
         </div>
