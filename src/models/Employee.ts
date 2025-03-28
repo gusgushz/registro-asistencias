@@ -11,5 +11,5 @@ export interface Employee {
   assists?: Assist[];
 }
 
-export type NewEmployee = Omit<Employee, "employeeId" | "token" | "assists">;
+export type NewEmployee = Omit<Employee, "userId" | "token" | "assists">;
 export type EmployeeToLogin = Pick<Employee, "email" | "password">;
