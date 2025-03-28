@@ -1,6 +1,6 @@
 import { Assist } from "./Assist";
 export interface Employee {
-  employeeId: number;
+  userId: number;
   name: string;
   lastName: string;
   email: string;
