@@ -1,8 +1,14 @@
+import { Assist } from "./Assist";
 export interface Employee {
   employeeId: number;
   name: string;
-  lastname: string;
-  role: string;
-  department?: string;
+  lastName: string;
+  email: string;
+  password: string;
+  rol: string;
   token: string;
+  department: string;
+  assists?: Assist[];
 }
+
+export type NewEmployee = Omit<Employee, "employeeId" | "token" | "assists">;

@@ -4,25 +4,21 @@ import logout from "../assets/images/log-out-outline.svg";
 import "./Header.css";
 import { Employee } from "../models/Employee";
 
-export const Header = () => {
-  const navigate = useNavigate();
-  let employee: Employee = {
-    name: "",
-    lastname: "",
-    employeeId: 0,
-    token: "",
-    role: "",
-  };
+interface HeaderProps {
+  employee: Employee;
+  buttonId: number;
+  setButtonId: (id: number) => void;
+}
 
-  if (localStorage.getItem("employee") !== null) {
-    employee = JSON.parse(localStorage.getItem("employee")!);
-  }
+export const Header = (props: HeaderProps) => {
+  const { employee, buttonId, setButtonId } = props;
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("employee");
-    // Redirigir al usuario a la página de inicio de sesión
     navigate({ pathname: "/login" });
   };
+
   return (
     <header className="header">
       <nav className="navbar">
@@ -30,16 +26,25 @@ export const Header = () => {
           <img src={logo} alt="KYGA Technologies Logo" />
         </div>
         <div className="options-container">
-          {employee.role === "admin" ? (
+          {employee.rol === "admin" ? (
             <div>
-              <button>Espacio de admin</button>
-              <button>Espacio de admin</button>
-              <button>Espacio de admin</button>
+              <button onClick={() => setButtonId(1)} className="logout-button">
+                <a href="#AdminComp">Espacio de admin</a>
+              </button>
+              <button onClick={() => setButtonId(2)} className="logout-button">
+                <a href="#Assits">Espacio de admin</a>
+              </button>
             </div>
           ) : (
             <div>
-              <button>Espacio de employee</button>
-              <button>Espacio de employee</button>
+              <button className="logout-button" onClick={() => setButtonId(1)}>
+                <a href="#EmployeeComp">
+                  <p>Espacio de employee</p>
+                </a>
+              </button>
+              <button className="logout-button" onClick={() => setButtonId(2)}>
+                <a href="#Profile">Espacio de employee</a>
+              </button>
             </div>
           )}
         </div>

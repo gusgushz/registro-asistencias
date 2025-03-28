@@ -6,14 +6,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   isAllowed,
   redirectPath = "/login",
   requiredRoles,
-  role,
+  rol,
   children,
 }) => {
   if (!isAllowed) {
     return <Navigate to={redirectPath} replace />;
   }
 
-  if (requiredRoles && !requiredRoles.includes(role!)) {
+  if (requiredRoles && !requiredRoles.includes(rol!)) {
     return <Navigate to="/unauthorized" replace />;
   }
 
