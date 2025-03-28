@@ -4,7 +4,6 @@ import logout from "../assets/images/log-out-outline.svg";
 import "./Header.css";
 import { Employee } from "../models/Employee";
 
-
 interface HeaderProps {
   employee: Employee;
   buttonId: number;
@@ -27,20 +26,25 @@ export const Header = (props: HeaderProps) => {
           <img src={logo} alt="KYGA Technologies Logo" />
         </div>
         <div className="options-container">
-          {employee.rol === "admin" ? (
+          {employee.rol === "ADMIN" ? (
             <div>
-              <button onClick={() => setButtonId(1)} className="logout-button">
-                <a href="#AdminComp">Espacio de admin</a>
-              </button>
+              {/* <button onClick={() => setButtonId(1)} className="logout-button">
+                Empleado
+              </button> */}
+
               <button onClick={() => setButtonId(2)} className="logout-button">
-                <a href="#Assits">Espacio de admin</a>
+                Historial de asistencias
+              </button>
+
+              <button onClick={() => setButtonId(3)} className="logout-button">
+                Registrar empleado
               </button>
             </div>
           ) : (
             <div>
               <button className="logout-button" onClick={() => setButtonId(1)}>
                 Mis asistencias
-              </button> 
+              </button>
 
               <br></br>
 
@@ -48,7 +52,6 @@ export const Header = (props: HeaderProps) => {
                 Perfil
               </button>
             </div>
-            
           )}
         </div>
         <div className="logout-container">

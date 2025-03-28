@@ -10,6 +10,8 @@
 }
 
 .admin-content {
+  max-width: 100%;
+  display: grid;
   display: flex;
   flex-grow: 1;
   background-color: green;

@@ -54,6 +54,10 @@
 .form button:hover {
   background-color: #3a7bc8;
 }
+.form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
 .form img {
   width: 1.5rem;
   height: 1.5rem;
