@@ -2,94 +2,110 @@ import React, { useState, useEffect } from 'react';
 import './AssistanceUser.css';
 import { Employee } from '../models/Employee';
 
+interface Asistencia {
+  fecha: string;
+  entrada: string;
+  salida: string;
+  horas: string;
+}
+
 export const Asistencias = () => {
   const employee: Employee = JSON.parse(localStorage.getItem("employee") || "{}");
-  const [semanaSeleccionada, setSemanaSeleccionada] = useState(0);
-  const [asistencias, setAsistencias] = useState([]);
+
+  const [mesSeleccionado, setMesSeleccionado] = useState(0);
+  const [asistencias, setAsistencias] = useState<Asistencia[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAsistencias = async () => {
       try {
         setLoading(true);
-        // Usar el endpoint que obtiene las asistencias por usuario ID
-        const response = await fetch(`https://node-webrest-server-fin-seccion-production.up.railway.app/api/assist/get-all/assists?userId=${employee.userId}`);
-        
+        const response = await fetch(
+          `https://node-webrest-server-fin-seccion-production.up.railway.app/api/assist/get-by-id-user/${employee.userId}`
+        );
+        console.log("Response:", response); // Log de la respuesta
+
         if (!response.ok) {
-          throw new Error('Error al obtener las asistencias');
+          throw new Error("Error al obtener las asistencias");
         }
-        
+
         const data = await response.json();
-        setAsistencias(data);
+
+        // Agrupar registros por fecha
+        const asistenciasProcesadas = Object.values(
+          data.reduce((acc: any, asistencia: any) => {
+            const fecha = asistencia.fecha.split("T")[0]; // Obtener solo la fecha (YYYY-MM-DD)
+            if (!acc[fecha]) {
+              acc[fecha] = { fecha, entradas: [] };
+            }
+            acc[fecha].entradas.push(new Date(asistencia.fecha));
+            return acc;
+          }, {})
+        ).map((asistencia: any) => {
+          // Ordenar las entradas por hora
+          asistencia.entradas.sort((a: Date, b: Date) => a.getTime() - b.getTime());
+
+          const entrada = asistencia.entradas[0]; // Primera hora del día
+          const salida = asistencia.entradas[asistencia.entradas.length - 1]; // Última hora del día
+
+          const horasTrabajadas = (salida.getTime() - entrada.getTime()) / (1000 * 60 * 60); // Diferencia en horas
+
+          return {
+            fecha: asistencia.fecha,
+            entrada: entrada.toLocaleTimeString("es-MX", { hour12: false }),
+            salida: salida.toLocaleTimeString("es-MX", { hour12: false }),
+            horas: horasTrabajadas.toFixed(2), // Total de horas trabajadas con 2 decimales
+          };
+        });
+
+        setAsistencias(asistenciasProcesadas);
       } catch (error) {
-        console.error('Error al obtener las asistencias:', error);
+        console.error("Error al obtener las asistencias:", error);
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchAsistencias();
   }, [employee.userId]);
 
-  // Función para filtrar asistencias por semana
-  const getAsistenciasPorSemana = (semana: number) => {
-    if (!semana || semana === 0) return asistencias;
-    
+  // Función para filtrar asistencias por mes
+  const getAsistenciasPorMes = (mes: number) => {
+    if (!mes || mes === 0) return asistencias;
+
     return asistencias.filter((asistencia: any) => {
       const fecha = new Date(asistencia.fecha);
-      const semanaAsistencia = getWeekNumber(fecha);
-      return semanaAsistencia === semana;
+      return fecha.getMonth() + 1 === mes; // Comparar el mes (getMonth() devuelve 0-11, por eso sumamos 1)
     });
   };
 
-  // Función para obtener el número de semana de una fecha
-  const getWeekNumber = (date: Date) => {
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-  };
+  const meses = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  ];
 
-  const getDayName = (fecha: string): string => {
-    const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const date = new Date(fecha + 'T00:00:00');
-    return diasSemana[date.getDay()];
-  };
-
-  const getCurrentWeek = () => {
-    const now = new Date();
-    return getWeekNumber(now);
-  };
-
-  const semanaActual = getCurrentWeek();
-  const semanas = Array.from({ length: semanaActual }, (_, i) => i + 1);
-  const asistenciasFiltradas = getAsistenciasPorSemana(semanaSeleccionada || semanaActual);
+  const asistenciasFiltradas = getAsistenciasPorMes(mesSeleccionado);
 
   return (
     <div className="historial-container">
       <div className="historial-tarjeta">
         <h1 className="historial-titulo">Historial de Asistencias</h1>
 
-        <div className="empleado-info-container">
-          <div className="empleado-info">
-            <p><span className="etiqueta">No. Empleado:</span> <span className="valor">{employee.userId}</span></p>
-            <p><span className="etiqueta">Nombre:</span> <span className="valor">{employee.name} {employee.lastName}</span></p>
-          </div>
-          <div className="semana-actual">
-            <p>Semana actual: {semanaActual}</p>
-          </div>
+        <div className="empleado-info">
+          <p><span className="etiqueta">No. Empleado:</span> {employee.userId}</p>
+          <p><span className="etiqueta">Nombre:</span> {employee.name} {employee.lastName}</p>
         </div>
 
-        <div className="filtro-container">
+        <div className="mes-container">
           <select
-            id="semanas"
-            className="filtro-select"
-            value={semanaSeleccionada}
-            onChange={(e) => setSemanaSeleccionada(parseInt(e.target.value))}
+            className="filtro-mes"
+            value={mesSeleccionado}
+            onChange={(e) => setMesSeleccionado(parseInt(e.target.value))}
           >
-            <option value="0">Todas las semanas</option>
-            {semanas.map((semana) => (
-              <option key={semana} value={semana}>
-                Semana {semana}
+            <option value="0">Todos los meses</option>
+            {meses.map((mes, index) => (
+              <option key={index + 1} value={index + 1}>
+                {mes}
               </option>
             ))}
           </select>
@@ -104,7 +120,7 @@ export const Asistencias = () => {
             <thead>
               <tr>
                 <th colSpan={4} className="tabla-titulo">
-                  {asistenciasFiltradas.length > 0 ? `Semana ${semanaSeleccionada || semanaActual}` : 'Sin registros'}
+                  {asistenciasFiltradas.length > 0 ? `Mes ${meses[mesSeleccionado - 1] || "Todos"}` : 'Sin registros'}
                 </th>
               </tr>
             </thead>
@@ -127,7 +143,7 @@ export const Asistencias = () => {
                 ))
               ) : (
                 <tr className="sin-registros">
-                  <td colSpan={4}>No hay registros de asistencia para esta semana</td>
+                  <td colSpan={4}>No hay registros de asistencia para este mes</td>
                 </tr>
               )}
             </tbody>

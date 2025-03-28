@@ -2,33 +2,49 @@ import React from "react";
 import './ProfileUser.css';
 import { Employee } from '../models/Employee';
 import { Badge } from './badge';
+import html2canvas from "html2canvas";
+import downloadIcon from "../assets/images/download-outline.svg";
 
 export const ProfileUserCard = () => {
   const employee: Employee = JSON.parse(localStorage.getItem("employee") || "{}");
 
+
+  const handleDownlad = () => {
+      const badgeElement = document.getElementById("badge");
+      const downloadButton = document.querySelector(".download-button")as HTMLElement; // Cast to HTMLElement
+  
+      if (badgeElement && downloadButton) {
+        downloadButton.style.backgroundColor = "white"; // Hide the download button before capturing
+        html2canvas(badgeElement).then((canvas) => {
+          const image = canvas.toDataURL("image/png");
+  
+          downloadButton.style.backgroundColor = "";
+  
+          const link = document.createElement("a");
+          link.href = image;
+          link.download = `badge-${employee.userId}.png`;
+          link.click();
+        });
+      }
+    };
+  
+    
   return (
-
     <div className="asistencia-card">
+      <div className="asistencia-card-header">
+        <div 
+          className="download-button" 
+          onClick={handleDownlad} 
+          style={{ cursor: "pointer", display: "inline-block" }}
+        >
+          <img 
+            src={downloadIcon} 
+            alt="Descargar" 
+            style={{ width: "35px", height: "35px" }} 
+          />
+        </div>
+      </div>
       <Badge employee={employee} width={700} height={300}></Badge>
-      {/* <div className="asistencia-card">
-          <h1 className="card-title">Tarjeta de Asistencia</h1>
-          
-          <div className="employee-content">
-            <img src={logo} alt="KYGA Technologies Logo" className="employee-logo" />
-            <div className="employee-info">
-              <div className="employee-field">
-                <span className="field-label">No. empleado:</span>
-                <span className="field-value">{employee.employeeId || "No disponible"}</span>
-              </div>
-              
-              <div className="employee-field">
-                <span className="field-label">Nombre:</span>
-                <span className="field-value">{employee.name ? `${employee.name} ${employee.lastName}` : "No disponible"}</span>
-              </div>
-            </div>
-          </div>
-
-        </div> */}
     </div>
   );
 };

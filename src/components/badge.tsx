@@ -10,25 +10,10 @@ interface BadgeProps {
   employee: Employee;
   width?: number; // Optional width prop
   height?: number; // Optional height prop
-  showDownloadButton?: boolean; // Optional prop to show/hide download button
+  // showDownloadButton?: boolean; // Optional prop to show/hide download button
 }
 
-export const Badge = ({ employee, width, height, showDownloadButton = true }: BadgeProps) => {
-  const handleDownlad = () => {
-    const badgeElement = document.getElementById("badge");
-
-    if (badgeElement) {
-      html2canvas(badgeElement).then((canvas) => {
-        const image = canvas.toDataURL("image/png");
-
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = `badge-${employee.userId}.png`;
-        link.click();
-      });
-    }
-  };
-
+export const Badge = ({ employee, width, height}: BadgeProps) => {
   return (
     <div
       className="badge"
@@ -38,7 +23,10 @@ export const Badge = ({ employee, width, height, showDownloadButton = true }: Ba
         height: height || "250", // Apply height if provided
       }}
     >
+      <div className="badge-header">
+
       <h1 className="badge-title">Tarjeta de Asistencias</h1>
+      </div>
       <div className="badge-body">
         <div className="badge-logo-container">
           <img src={logo} alt="Logo" className="badge-logo" />
