@@ -46,7 +46,7 @@ createRoot(document.getElementById("root")!).render(
           element={
             <ProtectedRoute
               isAllowed={isAuthenticated}
-              requiredRoles={["admin", "employee"]} // Roles permitidos
+              requiredRoles={["ADMIN", "EMPLEADO"]} // Roles permitidos
               rol={employee.rol}
             />
           }
@@ -55,14 +55,14 @@ createRoot(document.getElementById("root")!).render(
           <Route path="home" element={<Home />} />
 
           {/* Rutas solo para admin */}
-          {employee.rol === "admin" && (
+          {employee.rol === "ADMIN" && (
             <>
               <Route path="register" element={<Register />} />
             </>
           )}
 
           {/* Rutas solo para employee */}
-          {employee.role === "employee" && (<></>)}
+          {employee.rol === "EMPLEADO" && <></>}
         </Route>
 
         <Route path="unauthorized" element={<Unauthorized />} />

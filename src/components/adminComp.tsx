@@ -1,5 +1,9 @@
 import React from "react";
 
 export const AdminComp = () => {
-  return <div>adminComp</div>;
+  return (
+    <div style={{ width: 500, height: 500, backgroundColor: "red" }}>
+      adminComp
+    </div>
+  );
 };

@@ -1,6 +1,11 @@
-
 import { useState } from "react";
-import { Header, Asistencias, ProfileUserCard} from "../components/index";
+import {
+  Header,
+  Asistencias,
+  ProfileUserCard,
+  Assists,
+  AdminComp,
+} from "../components/index";
 import { Employee } from "../models/Employee";
 import "./Home.css";
 
@@ -17,15 +22,19 @@ export const Home = () => {
     password: "",
   };
 
-    if (localStorage.getItem("employee") !== null) {
-      employee = JSON.parse(localStorage.getItem("employee")!);
-    }
-    console.log("Employee:", employee); 
+  if (localStorage.getItem("employee") !== null) {
+    employee = JSON.parse(localStorage.getItem("employee")!);
+  }
+  console.log("Employee:", employee);
   return (
     <div className="container">
-      <Header employee={employee} buttonId={buttonId} setButtonId={setButtonId} />
+      <Header
+        employee={employee}
+        buttonId={buttonId}
+        setButtonId={setButtonId}
+      />
       <section className="content">
-        {employee.rol === "admin" ? (
+        {employee.rol === "ADMIN" ? (
           <div className="admin-content">
             {buttonId === 2 ? (
               <Assists></Assists>
@@ -37,7 +46,11 @@ export const Home = () => {
           </div>
         ) : (
           <div className="employee-content">
-            {buttonId == 2 ? (<Asistencias></Asistencias>) : (<ProfileUserCard></ProfileUserCard>)}
+            {buttonId == 2 ? (
+              <Asistencias></Asistencias>
+            ) : (
+              <ProfileUserCard></ProfileUserCard>
+            )}
           </div>
         )}
       </section>
