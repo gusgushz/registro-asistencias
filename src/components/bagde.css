@@ -69,12 +69,13 @@
   }
   
   .barcode-container svg {
-    width: 100%;  /* Ajustamos el tamaño del código de barras */
+    width: 200px;
+    height: 500px;  /* Ajustamos el tamaño del código de barras */
     height: auto;
   }
-  
+/*   
   button {
-    background-color: #4CAF50; /* Color verde */
+    background-color: #4CAF50; 
     color: white;
     padding: 10px 20px;
     border: none;
@@ -85,4 +86,4 @@
   
   button:hover {
     background-color: #45a049;
-  }
+  } */
