@@ -5,10 +5,11 @@ import ModalScanner from "../components/scanner/modalScanner";
 
 export const BarCodeScanner: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [detectedBarcodes, setDetectedBarcodes] = useState<string | null>(null);
+  const [detectedBarcode, setDetectedBarcode] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [lastAssistTime, setLastAssistTime] = useState<number | null>(null);
+  // const [lastAssistTime, setLastAssistTime] = useState<number | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const checkBarcodeDetectorSupport = async () => {
@@ -39,7 +40,7 @@ export const BarCodeScanner: React.FC = () => {
     };
 
     const detectBarcodes = async () => {
-      if (!videoRef.current) return; 
+      if (isProcessing || !videoRef.current) return; 
 
       const video = videoRef.current;
       const canvas = document.createElement("canvas");
@@ -58,12 +59,18 @@ export const BarCodeScanner: React.FC = () => {
           const barcodes = await barcodeDetector.detect(blob);
           if (barcodes.length > 0) {
             const barcodeValue = barcodes[0].rawValue.trim();
-            setDetectedBarcodes(barcodeValue);
+            if (barcodeValue && barcodeValue!== detectedBarcode) {
+              setDetectedBarcode(barcodeValue);
+              setIsProcessing(true);
 
-            await registerAssist(barcodeValue); 
-            setTimeout(() => {
-              setIsModalOpen(false);
-            }, 7000); //
+              await registerAssist(barcodeValue); 
+              setTimeout(() => {
+                setIsModalOpen(false);
+                setDetectedBarcode(null); // Resetea el código detectado
+                setIsProcessing(false); // Permite detectar nuevamente
+              }, 7000); //
+            }
+
           }
         } catch (error) {
           console.error("Error al detectar códigos de barras:", error);
@@ -76,7 +83,7 @@ export const BarCodeScanner: React.FC = () => {
       if (!isSupported) return;
 
       await startCamera();
-      setInterval(detectBarcodes, 2000);
+      setInterval(detectBarcodes, 7000);
     };
 
     init();
@@ -88,7 +95,7 @@ export const BarCodeScanner: React.FC = () => {
           .forEach((track) => track.stop());
       }
     };
-  }, []);
+  }, [detectedBarcode, isProcessing]);
 
   const registerAssist = async (barcodeValue: string) => {
     const apiUrl = 'https://node-webrest-server-fin-seccion-production.up.railway.app';
