@@ -34,10 +34,10 @@ export const Badge = ({employee}: BadgeProps) => {
           <img src={logo} alt="Logo" className="badge-logo" />
         </div>
         <div className="badge-info">
-        <p><strong>Nombre:</strong> {employee.name} {employee.lastname}</p>
-          <p><strong>Rol:</strong> {employee.role}</p>
+        <p><strong>Nombre:</strong> {employee.name} {employee.lastName}</p>
+          <p><strong>Rol:</strong> {employee.rol}</p>
           <p><strong>Número de empleado:</strong> {employee.employeeId}</p>
-          <p><strong>Departamento:</strong> {employee.department}</p>
+          <p><strong>Departamento:</strong> {employee.name}</p>
         </div>
       </div>
       <div className="badge-footer">
