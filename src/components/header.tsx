@@ -26,24 +26,25 @@ export const Header = (props: HeaderProps) => {
           <img src={logo} alt="KYGA Technologies Logo" />
         </div>
         <div className="options-container">
-          {employee.rol === "admin" ? (
+          {employee.rol === "ADMIN" ? (
             <div>
               <button onClick={() => setButtonId(1)} className="logout-button">
                 <a href="#AdminComp">Espacio de admin</a>
               </button>
               <button onClick={() => setButtonId(2)} className="logout-button">
-                <a href="#Assits">Espacio de admin</a>
+                <a href="#Assists">Espacio de admin</a>
               </button>
             </div>
           ) : (
             <div>
-              <button className="logout-button" onClick={() => setButtonId(1)}>
-                <a href="#EmployeeComp">
-                  <p>Espacio de employee</p>
-                </a>
-              </button>
               <button className="logout-button" onClick={() => setButtonId(2)}>
-                <a href="#Profile">Espacio de employee</a>
+                Mis asistencias
+              </button>
+
+              <br></br>
+
+              <button className="logout-button" onClick={() => setButtonId(1)}>
+                Perfil
               </button>
             </div>
           )}
