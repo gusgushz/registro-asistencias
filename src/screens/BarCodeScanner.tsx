@@ -137,11 +137,11 @@ export const BarCodeScanner: React.FC = () => {
         setModalMessage(`Asistencia registrada correctamente\nBienvenido:\nEmpleado número ${userId}`);
         console.log("Asistencia registrada correctamente", response);
       } else {
-        setModalMessage("Debes esperar 7 segundos para registrar otra asistenciaa");
+        setModalMessage("Solo se puede registrar dos asistencia por día por empleado");
       }
     } catch (e) {
       console.error("Error al registrar asistencia", e);
-      setModalMessage("Debes esperar 7 segundos para registrar otra asistencia");
+      setModalMessage("Solo se puede registrar dos asistencia por día por empleado");
     }
     setIsModalOpen(true);
   }
