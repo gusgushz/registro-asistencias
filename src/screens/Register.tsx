@@ -29,12 +29,7 @@ export const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-<<<<<<< HEAD
     const newEmployee = {
-=======
-    newEmploye = {
-      userId: Date.now(), // Generate a unique ID for the user
->>>>>>> 3e90ab398930d2bc166d46631db9e88c56379e62
       name: nameRef.current?.value || "",
       lastName: lastnameRef.current?.value || "",
       email: emailRef.current?.value || "",

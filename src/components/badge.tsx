@@ -51,11 +51,7 @@ export const Badge = ({ employee, width, height, showDownloadButton = true }: Ba
       </div>
       <div className="badge-footer">
         {/* Aquí puedes agregar el código de barras */}
-<<<<<<< HEAD
         <Barcode value={employee.userId.toString()} width={2} height={40} displayValue={false} />
-=======
-        <Barcode value={employee.userId.toString()}  width={4} height={40} displayValue={false} />
->>>>>>> 3e90ab398930d2bc166d46631db9e88c56379e62
       </div>
     </div>
   );
