@@ -4,3 +4,4 @@ export * from "./AssistanceUser"
 export * from "./ProfileUser";
 export * from "./assists";
 export * from "./adminComp";
+export * from "./HistorialAsistencia";

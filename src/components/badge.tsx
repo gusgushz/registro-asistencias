@@ -34,8 +34,8 @@ export const Badge = ({ employee, width, height, showDownloadButton = true }: Ba
       className="badge"
       id="badge"
       style={{
-        width: width || "auto", // Apply width if provided
-        height: height || "auto", // Apply height if provided
+        width: width || "300", // Apply width if provided
+        height: height || "250", // Apply height if provided
       }}
     >
       <h1 className="badge-title">Tarjeta de Asistencias</h1>
@@ -52,9 +52,8 @@ export const Badge = ({ employee, width, height, showDownloadButton = true }: Ba
       </div>
       <div className="badge-footer">
         {/* Aquí puedes agregar el código de barras */}
-        <Barcode value={employee.userId.toString()}  width={2} height={40} displayValue={false} />
+        <Barcode value={employee.userId.toString()}  width={4} height={40} displayValue={false} />
       </div>
-      {showDownloadButton && <button onClick={handleDownlad}>Descargar Gafete</button>}
     </div>
   );
 };
