@@ -21,7 +21,7 @@ export const Badge = ({employee}: BadgeProps) => {
 
         const link = document.createElement("a");
         link.href = image;
-        link.download = `badge-${employee.employeeId}.png`;
+        link.download = `badge-${employee.userId}.png`;
         link.click();
       })
     }
@@ -34,15 +34,15 @@ export const Badge = ({employee}: BadgeProps) => {
           <img src={logo} alt="Logo" className="badge-logo" />
         </div>
         <div className="badge-info">
-        <p><strong>Nombre:</strong> {employee.name} {employee.lastname}</p>
-          <p><strong>Rol:</strong> {employee.role}</p>
-          <p><strong>Número de empleado:</strong> {employee.employeeId}</p>
+        <p><strong>Nombre:</strong> {employee.name} {employee.lastName}</p>
+          <p><strong>Rol:</strong> {employee.rol}</p>
+          <p><strong>Número de empleado:</strong> {employee.userId}</p>
           <p><strong>Departamento:</strong> {employee.department}</p>
         </div>
       </div>
       <div className="badge-footer">
         {/* Aquí puedes agregar el código de barras */}
-        <Barcode value={employee.employeeId.toString()}  width={2} height={40} displayValue={false} />
+        <Barcode value={employee.userId.toString()}  width={2} height={40} displayValue={false} />
       </div>
       <button onClick={handleDownlad}>Descargar Gafete</button>
     </div>
