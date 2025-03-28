@@ -33,7 +33,6 @@ export const AdminComp = () => {
 
   return (
     <div>
-      <h1>Lista de Empleados</h1>
       <div className="badges-container">
         {employees.map((employee) => (
           <Badge key={employee.userId} employee={employee} />
