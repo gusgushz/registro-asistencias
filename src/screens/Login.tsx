@@ -46,7 +46,7 @@ export const Login = () => {
 
   return (
     <div className="container-login">
-      <img src={logo} alt="KYGA Technologies Logo" className="logo" />
+      <img src={logo} alt="KYGA Technologies Logo" className="logo-login" />
       <form className="form" onSubmit={handleSubmit}>
         <p>Iniciar Sesión</p>
         <div className="input-container">
@@ -60,7 +60,7 @@ export const Login = () => {
         <button type="submit" disabled={loading}>
           Ingresar
         </button>
-        <a className="password">Olvide mi contraseña</a>
+        {/* <a className="password">Olvide mi contraseña</a> */}
       </form>
     </div>
   );

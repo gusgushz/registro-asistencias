@@ -26,7 +26,7 @@
 .form-register p {
   font-family: PatuaOne;
   font-size: 2rem;
-  color: rgb(255, 255, 255);
+  color: rgb(25, 25, 25);
 }
 
 .form-register input {
@@ -36,7 +36,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #e3e3e3;
-  color: rgb(255, 255, 255);
+  color: rgb(26, 25, 25);
   font-family: Roboto;
 }
 
@@ -72,9 +72,10 @@
   /* background-color: transparent; Removed the opaque dark green color */
 }
 
-.logo {
+.logo-register {
   position: absolute;
   top: 1rem;
+  width: 10rem;
 }
 .password {
   color: rgb(8, 32, 214);
@@ -91,7 +92,7 @@
 }
 #options {
   background-color: #e3e3e3;
-  color: rgb(255, 255, 255);
+  color: rgb(31, 31, 31);
   font-family: Roboto;
   font-size: 0.8rem;
   cursor: pointer;

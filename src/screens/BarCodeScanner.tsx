@@ -157,7 +157,7 @@ export const BarCodeScanner: React.FC = () => {
 
   return (
     <section className="scanner">
-      <h2>Detección de Códigos de Barras con Cámara Web</h2>
+      <h2>KYGA - Registro de asistencias</h2>
       <video
         ref={videoRef}
         autoPlay

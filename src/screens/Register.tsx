@@ -16,7 +16,14 @@ export const Register = () => {
   const departmentRef = useRef<HTMLSelectElement>(null);
 
   const handleRegister = async (employee: NewEmployee) => {
-    if (!employee || !employee.name || !employee.lastName || !employee.email || !employee.password || !employee.department) {
+    if (
+      !employee ||
+      !employee.name ||
+      !employee.lastName ||
+      !employee.email ||
+      !employee.password ||
+      !employee.department
+    ) {
       alert("Por favor, completa todos los campos requeridos.");
     }
     const response = await postRegister(employee);
@@ -40,7 +47,7 @@ export const Register = () => {
     console.log(JSON.stringify(newEmployee));
     const result = await handleRegister(newEmployee);
     if (result !== null) {
-      navigate({ pathname: "/home" });
+      alert("Empleado registrado correctamente");
     } else {
       console.error("Error during registration");
     }
@@ -48,7 +55,7 @@ export const Register = () => {
 
   return (
     <div className="container-register">
-      <img src={logo} alt="KYGA Technologies Logo" className="logo" />
+      <img src={logo} alt="KYGA Technologies Logo" className="logo-register" />
       <form className="form-register" onSubmit={handleSubmit}>
         <p>Registrar empleado</p>
         <div className="input-container-register">
