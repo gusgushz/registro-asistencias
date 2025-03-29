@@ -8,7 +8,7 @@ import {
 } from "../components/index";
 import { Employee } from "../models/Employee";
 import "./Home.css";
-import { RegistrarEmpelado } from "../components/RegistrarEmpleado";
+import {Register} from "../screens/index"
 
 
 export const Home = () => {
@@ -38,14 +38,12 @@ export const Home = () => {
       <section className="content">
         {employee.rol === "ADMIN" ? (
           <div className="admin-content">
-            {buttonId === 1 ? (
-              <AdminComp></AdminComp> //adminComp.tsx, empleados 
-            ) : buttonId === 2 ? (
-              <></>
+            {buttonId === 2 ? (
+              <Assists></Assists>
             ) : buttonId === 3 ? (
-              <Assists></Assists> //assists.tsx, Historial de asistencias
+              <Register></Register>
             ) : (
-              <RegistrarEmpelado></RegistrarEmpelado> //RegistrarEmpleado.tsx, registrar empleado
+              <AdminComp></AdminComp> //RegistrarEmpleado.tsx, registrar empleado
             )}
           </div>
 

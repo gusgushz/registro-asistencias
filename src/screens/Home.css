@@ -11,7 +11,7 @@
 }
 
 .admin-content {
-  max-width: 100%;
+  flex-grow: 1;
   display: flex;
   background-color: white; /* Fondo blanco */
 }
