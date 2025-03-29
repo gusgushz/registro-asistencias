@@ -30,8 +30,8 @@
     align-items: center; /* Alinea verticalmente */
     width: 100%; /* Ocupa el 100% del ancho disponible */
     padding: 10px 20px;
-    font-weight: 500;
     font-family: roboto;
+    padding-right: 20px;
   }
   
   .etiqueta {
@@ -41,24 +41,25 @@
 
   }
 
+  .etiqueta-nombre{
+    font-size: 18px;
+    padding-right: 30px;
+
+  }
+
   .semana-actual{
     font-size: 18px; /* Tamaño de fuente */
     font-weight: bold; /* Texto en negritas */
     color: #2f80ed;
   }
   
-  .filtro-container {
-    text-align: center;
-    margin-bottom: 20px;
+  .filtros-container {
+    display: flex; /* Activa el diseño flexbox */
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 20px; /* Espacio entre los botones */
+    margin-bottom: 20px; /* Espacio debajo del contenedor */
   }
   
-  .filtro-select {
-    padding: 10px;
-    font-size: 18px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-  }
   
   .tabla-container {
     width: 85%;
@@ -120,5 +121,30 @@
     color: white;
     padding: 6px 12px;
     border-radius: 5px;
+  }
+  
+  .filtro-mes, .filtro-semana {
+    background-color: #50E3C2; /* Color similar al botón de la imagen */
+    color: rgb(0, 0, 0); /* Texto en blanco */
+    font-weight: bold;
+    border: none;
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    appearance: none; /* Quita el estilo por defecto en algunos navegadores */
+    text-align: center;
+  }
+  
+  /* Efecto hover */
+  .filtro-mes:hover, .filtro-semana:hover {
+    background-color: #14a58c; /* Color más oscuro al pasar el mouse */
+  }
+  
+  /* Estilo cuando se selecciona */
+  .filtro-mes:focus, .filtro-semana:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   }
   
