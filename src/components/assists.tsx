@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Employee } from "../models/Employee";
 import { Assist } from "../models/Assist";
-import "./adminComp.css";
+import "./assists.css";
+
 
 export const Assists = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -86,7 +87,7 @@ export const Assists = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="body-assists">
       {Object.keys(organizedAssists).map((month) => (
         <div key={month}>
           <h2>{month}</h2>
@@ -104,7 +105,7 @@ export const Assists = () => {
                         <th>Fecha</th>
                         <th>Hora de entrada</th>
                         <th>Hora de salida</th>
-                        <th>Total de horas</th>
+                        {/* <th>Total de horas</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -119,9 +120,9 @@ export const Assists = () => {
                         const horaEntrada = obtenerHora(assistsOnDate[0].fecha);
                         const horaSalida = obtenerHora(assistsOnDate[assistsOnDate.length - 1].fecha);
 
-                        const entrada = new Date(assistsOnDate[0].fecha);
-                        const salida = new Date(assistsOnDate[assistsOnDate.length - 1].fecha);
-                        const totalHoras = (salida.getTime() - entrada.getTime()) / (1000 * 60 * 60);
+                        // const entrada = new Date(assistsOnDate[0].fecha);
+                        // const salida = new Date(assistsOnDate[assistsOnDate.length - 1].fecha);
+                        // const totalHoras = (salida.getTime() - entrada.getTime()) / (1000 * 60 * 60);
 
                         const employee = employees.find(
                           (emp) => emp.userId === assistsOnDate[0].userId
@@ -134,7 +135,7 @@ export const Assists = () => {
                             <td>{dateKey}</td>
                             <td>{horaEntrada}</td>
                             <td>{horaSalida}</td>
-                            <td>{totalHoras.toFixed(2)} hrs</td>
+                            {/* <td>{totalHoras.toFixed(2)} hrs</td> */}
                           </tr>
                         );
                       })}
