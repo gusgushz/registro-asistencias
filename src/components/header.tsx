@@ -31,16 +31,11 @@ export const Header = (props: HeaderProps) => {
               <button onClick={() => setButtonId(1)} className="logout-button">
                 <a href="#Empleados">Empleados</a>
               </button>
-
-              <button onClick={() => setButtonId(3)} className="logout-button">
-                Historial de Asistencias
-              </button>
-
               <button onClick={() => setButtonId(2)} className="logout-button">
-                <a href="#HistorialAsistencia">HistorialAsistencia</a>
+                <a href="#HistorialAsistencias">Historial de Asistencia</a>
               </button>
               <button onClick={() => setButtonId(3)} className="logout-button">
-                <a href="#Assists">Registrar Empleado </a>
+                <a href="#RegistrarEmpleado">Registrar Empleado </a>
               </button>
             </div>
           ) : (

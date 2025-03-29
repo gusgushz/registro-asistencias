@@ -5,3 +5,8 @@
   align-items: center;
   height: 90vh;
 }
+.scanner h2 {
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+}

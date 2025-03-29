@@ -40,7 +40,7 @@ export const BarCodeScanner: React.FC = () => {
     };
 
     const detectBarcodes = async () => {
-      if (isProcessing || !videoRef.current) return; 
+      if (isProcessing || !videoRef.current) return;
 
       const video = videoRef.current;
       const canvas = document.createElement("canvas");
@@ -59,18 +59,17 @@ export const BarCodeScanner: React.FC = () => {
           const barcodes = await barcodeDetector.detect(blob);
           if (barcodes.length > 0) {
             const barcodeValue = barcodes[0].rawValue.trim();
-            if (barcodeValue && barcodeValue!== detectedBarcode) {
+            if (barcodeValue && barcodeValue !== detectedBarcode) {
               setDetectedBarcode(barcodeValue);
               setIsProcessing(true);
 
-              await registerAssist(barcodeValue); 
+              await registerAssist(barcodeValue);
               setTimeout(() => {
                 setIsModalOpen(false);
                 setDetectedBarcode(null); // Resetea el código detectado
                 setIsProcessing(false); // Permite detectar nuevamente
               }, 7000); //
             }
-
           }
         } catch (error) {
           console.error("Error al detectar códigos de barras:", error);
@@ -98,15 +97,15 @@ export const BarCodeScanner: React.FC = () => {
   }, [detectedBarcode, isProcessing]);
 
   const registerAssist = async (barcodeValue: string) => {
-    const apiUrl = 'https://node-webrest-server-fin-seccion-production.up.railway.app';
+    const apiUrl =
+      "https://node-webrest-server-fin-seccion-production.up.railway.app";
 
     const userId = parseInt(barcodeValue);
     if (isNaN(userId)) {
-      console.log('Codigo Qr invalido, No es un Id valido')
+      console.log("Codigo Qr invalido, No es un Id valido");
       setIsModalOpen(true);
       return;
     }
-
 
     // if (lastAssistTime && currentTime - lastAssistTime < 7000) {
     //   console.log('Ya se registro una asistencia hace menos de 7 segundos')
@@ -115,40 +114,46 @@ export const BarCodeScanner: React.FC = () => {
     // }
 
     // const date = new Date().getDate();
-    const date = new Date() 
+    const date = new Date();
 
     const data = {
       userId: userId,
-      fecha: date //Deberia ser la fecha actual en formato ISO? ,
-    }
+      fecha: date, //Deberia ser la fecha actual en formato ISO? ,
+    };
 
     try {
       const response = await fetch(`${apiUrl}/api/assist/register`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      }); 
+      });
 
-      const result = await response.json()
+      const result = await response.json();
       console.log(result);
       if (response.ok) {
-        setModalMessage(`Asistencia registrada correctamente\nBienvenido:\nEmpleado número ${userId}`);
+        setModalMessage(
+          `Asistencia registrada correctamente\nBienvenido:\nEmpleado número ${userId}`
+        );
         console.log("Asistencia registrada correctamente", response);
       } else {
-        setModalMessage("Debes esperar 7 segundos para registrar otra asistenciaa");
+        setModalMessage(
+          "Debes esperar 7 segundos para registrar otra asistenciaa"
+        );
       }
     } catch (e) {
       console.error("Error al registrar asistencia", e);
-      setModalMessage("Debes esperar 7 segundos para registrar otra asistencia");
+      setModalMessage(
+        "Debes esperar 7 segundos para registrar otra asistencia"
+      );
     }
     setIsModalOpen(true);
-  }
-  
+  };
+
   const handleModalClose = () => {
     setIsModalOpen(false);
-  }
+  };
 
   return (
     <section className="scanner">
@@ -164,7 +169,7 @@ export const BarCodeScanner: React.FC = () => {
         }}
       />
       <div>
-        <h2>Códigos de Barras Detectados:</h2>
+        {/* <h2>Códigos de Barras Detectados:</h2> */}
         {/* <ul>
           {detectedBarcodes.map((barcode, index) => (
             <li key={index}>{barcode}</li>
