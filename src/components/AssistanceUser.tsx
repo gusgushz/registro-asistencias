@@ -15,6 +15,7 @@ export const Asistencias = () => {
   const [mesSeleccionado, setMesSeleccionado] = useState(0);
   const [asistencias, setAsistencias] = useState<Asistencia[]>([]);
   const [loading, setLoading] = useState(true);
+  const [semanaSeleccionada, setSemanaSeleccionada] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchAsistencias = async () => {
@@ -23,7 +24,6 @@ export const Asistencias = () => {
         const response = await fetch(
           `https://node-webrest-server-fin-seccion-production.up.railway.app/api/assist/get-by-id-user/${employee.userId}`
         );
-        console.log("Response:", response); // Log de la respuesta
 
         if (!response.ok) {
           throw new Error("Error al obtener las asistencias");
@@ -31,10 +31,9 @@ export const Asistencias = () => {
 
         const data = await response.json();
 
-        // Agrupar registros por fecha
         const asistenciasProcesadas = Object.values(
           data.reduce((acc: any, asistencia: any) => {
-            const fecha = asistencia.fecha.split("T")[0]; // Obtener solo la fecha (YYYY-MM-DD)
+            const fecha = asistencia.fecha.split("T")[0];
             if (!acc[fecha]) {
               acc[fecha] = { fecha, entradas: [] };
             }
@@ -42,19 +41,17 @@ export const Asistencias = () => {
             return acc;
           }, {})
         ).map((asistencia: any) => {
-          // Ordenar las entradas por hora
           asistencia.entradas.sort((a: Date, b: Date) => a.getTime() - b.getTime());
 
-          const entrada = asistencia.entradas[0]; // Primera hora del día
-          const salida = asistencia.entradas[asistencia.entradas.length - 1]; // Última hora del día
-
-          const horasTrabajadas = (salida.getTime() - entrada.getTime()) / (1000 * 60 * 60); // Diferencia en horas
+          const entrada = asistencia.entradas[0];
+          const salida = asistencia.entradas[asistencia.entradas.length - 1];
+          const horasTrabajadas = (salida.getTime() - entrada.getTime()) / (1000 * 60 * 60);
 
           return {
             fecha: asistencia.fecha,
             entrada: entrada.toLocaleTimeString("es-MX", { hour12: false }),
             salida: salida.toLocaleTimeString("es-MX", { hour12: false }),
-            horas: horasTrabajadas.toFixed(2), // Total de horas trabajadas con 2 decimales
+            horas: horasTrabajadas.toFixed(2),
           };
         });
 
@@ -69,13 +66,30 @@ export const Asistencias = () => {
     fetchAsistencias();
   }, [employee.userId]);
 
-  // Función para filtrar asistencias por mes
+  const getWeekNumber = (date: Date) => {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / (1000 * 60 * 60 * 24);
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  };
+
+  const currentWeek = getWeekNumber(new Date());
+  const last5Weeks = Array.from({ length: 5 }, (_, i) => currentWeek - i).reverse();
+
+  const getAsistenciasPorSemana = (semana: number | null) => {
+    if (semana === null) return asistencias;
+
+    return asistencias.filter((asistencia) => {
+      const fecha = new Date(asistencia.fecha);
+      return getWeekNumber(fecha) === semana;
+    });
+  };
+
   const getAsistenciasPorMes = (mes: number) => {
     if (!mes || mes === 0) return asistencias;
 
-    return asistencias.filter((asistencia: any) => {
+    return asistencias.filter((asistencia) => {
       const fecha = new Date(asistencia.fecha);
-      return fecha.getMonth() + 1 === mes; // Comparar el mes (getMonth() devuelve 0-11, por eso sumamos 1)
+      return fecha.getMonth() + 1 === mes;
     });
   };
 
@@ -84,7 +98,9 @@ export const Asistencias = () => {
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
   ];
 
-  const asistenciasFiltradas = getAsistenciasPorMes(mesSeleccionado);
+  const asistenciasFiltradas = semanaSeleccionada !== null
+    ? getAsistenciasPorSemana(semanaSeleccionada)
+    : getAsistenciasPorMes(mesSeleccionado);
 
   return (
     <div className="historial-container">
@@ -92,11 +108,22 @@ export const Asistencias = () => {
         <h1 className="historial-titulo">Historial de Asistencias</h1>
 
         <div className="empleado-info">
-          <p><span className="etiqueta">No. Empleado:</span> {employee.userId}</p>
-          <p><span className="etiqueta">Nombre:</span> {employee.name} {employee.lastName}</p>
+          <p className="etiqueta"><span>No. Empleado:</span> {employee.userId}</p>
+          <p className="etiqueta-nombre"><span>Nombre:</span> {employee.name} {employee.lastName}</p>
         </div>
 
-        <div className="mes-container">
+        <div className="filtros-container">
+          {/* <select
+            className="filtro-semana"
+            value={semanaSeleccionada || ""}
+            onChange={(e) => setSemanaSeleccionada(e.target.value ? parseInt(e.target.value) : null)}
+          >
+            <option value="">Seleccionar semana</option>
+            {last5Weeks.map((week) => (
+              <option key={week} value={week}>Semana {week}</option>
+            ))}
+          </select> */}
+
           <select
             className="filtro-mes"
             value={mesSeleccionado}
@@ -120,11 +147,14 @@ export const Asistencias = () => {
             <thead>
               <tr>
                 <th colSpan={4} className="tabla-titulo">
-                  {asistenciasFiltradas.length > 0 ? `Mes ${meses[mesSeleccionado - 1] || "Todos"}` : 'Sin registros'}
+                  {semanaSeleccionada !== null
+                    ? `Semana ${semanaSeleccionada}`
+                    : mesSeleccionado !== 0
+                      ? `Mes ${meses[mesSeleccionado - 1]}`
+                      : "Todos los registros"}
                 </th>
               </tr>
             </thead>
-
             <tbody>
               <tr>
                 <td className="tabla-header">Fecha</td>
@@ -133,7 +163,7 @@ export const Asistencias = () => {
                 <td className="tabla-header">Total de horas</td>
               </tr>
               {asistenciasFiltradas.length > 0 ? (
-                asistenciasFiltradas.map((asistencia: any, index: number) => (
+                asistenciasFiltradas.map((asistencia, index) => (
                   <tr key={index}>
                     <td className="tabla-contenido">{asistencia.fecha}</td>
                     <td className="tabla-contenido">{asistencia.entrada || '--:--'}</td>
@@ -143,7 +173,7 @@ export const Asistencias = () => {
                 ))
               ) : (
                 <tr className="sin-registros">
-                  <td colSpan={4}>No hay registros de asistencia para este mes</td>
+                  <td colSpan={4}>No hay registros de asistencia</td>
                 </tr>
               )}
             </tbody>
